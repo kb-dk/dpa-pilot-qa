@@ -19,9 +19,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 
-/**
- * Created by abr on 8/5/15.
- */
 public class DPAStructureComponent extends TreeProcessorAbstractRunnableComponent {
 
     public static final String DEMANDS_SCH = "dpa_demands.sch";
@@ -43,7 +40,7 @@ public class DPAStructureComponent extends TreeProcessorAbstractRunnableComponen
         /*Generate structure xml in the first iteration*/
         XmlBuilderEventHandler xmlBuilderEventHandler = new XmlBuilderEventHandler();
         //TODO create a sequence checker here
-        runBatchSinglethreaded(new File(batchFolder,batch.getBatchID()).getAbsolutePath(), resultCollector, new ArrayList<TreeEventHandler>(Arrays.asList(xmlBuilderEventHandler)));
+        runBatchSinglethreaded(new File(batchFolder, batch.getBatchID()).getAbsolutePath(), resultCollector, new ArrayList<TreeEventHandler>(Arrays.asList(xmlBuilderEventHandler)));
         batchStructure = DOM.stringToDOM(xmlBuilderEventHandler.getXml(), true);
         /*Validate structure here*/
         StructureValidator validator1 = new StructureValidator(DEMANDS_SCH);

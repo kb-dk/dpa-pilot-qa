@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 
-/**
- * Created by abr on 8/5/15.
- */
 public class DPAFileComponent extends TreeProcessorAbstractRunnableComponent {
 
     private final Document batchStructure;
@@ -44,8 +41,8 @@ public class DPAFileComponent extends TreeProcessorAbstractRunnableComponent {
         String batchFolder = getProperties().getProperty(ConfigConstants.ITERATOR_FILESYSTEM_BATCHES_FOLDER);
 
         /*Here the single files are checked, schema checks and the like*/
-        List<TreeEventHandler> attributeEventHandlers = getAttributeEventHandlers(resultCollector,batchStructure,batchFolder);
-        runBatch(new File(batchFolder,batch.getBatchID()).getAbsolutePath(), resultCollector, attributeEventHandlers,4);
+        List<TreeEventHandler> attributeEventHandlers = getAttributeEventHandlers(resultCollector, batchStructure, batchFolder);
+        runBatch(new File(batchFolder, batch.getBatchID()).getAbsolutePath(), resultCollector, attributeEventHandlers, 4);
 
     }
 
@@ -70,10 +67,10 @@ public class DPAFileComponent extends TreeProcessorAbstractRunnableComponent {
         POSTFIX_TO_SCH.put(".pdf.xml", "pdf.sch");
         treeEventHandlers.add(new SchematronValidatorEventHandler(resultCollector, documentCache, POSTFIX_TO_SCH, POSTFIX_TO_TYPE));
 
-        treeEventHandlers.add(new ArticleXmlChecker(resultCollector,documentCache,batchStructure));
+        treeEventHandlers.add(new ArticleXmlChecker(resultCollector, documentCache, batchStructure));
 
         String jpylyzerPath = getProperties().getProperty(ConfigConstants.JPYLYZER_PATH);
-        treeEventHandlers.add(new JpylyzingEventHandler(resultCollector, batchFolder, jpylyzerPath){
+        treeEventHandlers.add(new JpylyzingEventHandler(resultCollector, batchFolder, jpylyzerPath) {
             @Override
             protected String getJpylyzerName(String jp2Name) {
                 return jp2Name.replaceFirst("\\.pdf$", ".pdf.xml");
@@ -84,7 +81,7 @@ public class DPAFileComponent extends TreeProcessorAbstractRunnableComponent {
     }
 
 
-    private  void runBatch(String arg, ResultCollector resultCollector, List<TreeEventHandler> eventHandlers, int threads) {
+    private void runBatch(String arg, ResultCollector resultCollector, List<TreeEventHandler> eventHandlers, int threads) {
         TransformingIteratorForFileSystems iterator = new TransformingIteratorForFileSystems(new File(arg),
                 "\\.",
                 ".*\\.pdf$",
@@ -94,7 +91,7 @@ public class DPAFileComponent extends TreeProcessorAbstractRunnableComponent {
         eventRunner.run();
     }
 
-    private  MultiThreadedEventRunner.EventCondition getForker() {
+    private MultiThreadedEventRunner.EventCondition getForker() {
         return new MultiThreadedEventRunner.EventCondition() {
             public boolean shouldFork(ParsingEvent parsingEvent) {
                 String shortName = parsingEvent.getName().substring(parsingEvent.getName().indexOf('/') + 1);
