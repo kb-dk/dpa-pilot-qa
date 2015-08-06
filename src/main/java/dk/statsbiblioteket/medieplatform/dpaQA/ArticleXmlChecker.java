@@ -9,11 +9,7 @@ import org.w3c.dom.Document;
 
 import java.io.IOException;
 
-/**
- * Created by abr on 8/4/15.
- */
-public class ArticleXmlChecker extends DefaultTreeEventHandler
-{
+public class ArticleXmlChecker extends DefaultTreeEventHandler {
     private final ResultCollector resultCollector;
     private final DocumentCache documentCache;
     private final Document batchStructure;
@@ -27,7 +23,7 @@ public class ArticleXmlChecker extends DefaultTreeEventHandler
 
     @Override
     public void handleAttribute(AttributeParsingEvent event) {
-        if (!event.getName().endsWith(".xml")){
+        if (!event.getName().endsWith(".xml")) {
             return;
         }
         try {
